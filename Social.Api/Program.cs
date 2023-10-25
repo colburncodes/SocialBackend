@@ -1,10 +1,7 @@
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Social.Core.Responses;
 using Social.Infrastructure.Data;
 using Social.Infrastructure.Interfaces;
 using Social.Infrastructure.Repositories;
@@ -16,6 +13,11 @@ builder.Services.AddDbContext<SocialContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 // Add services to the container.
+builder.Services.AddAutoMapper(map =>
+{
+    map.CreateMap<Account, User>();
+    map.CreateMap<Person, User>();
+});
 builder.Services.AddScoped<IAccountRespository, AccountRepository>();
 
 builder.Services.AddControllers();

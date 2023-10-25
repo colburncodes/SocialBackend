@@ -17,5 +17,5 @@ public class Account
     [Required]
     [StringLength(128)]
     public byte[] PasswordSalt { get; set; }
-    public User User { get; set; }
+    public Person Person { get; set; }
 }
