@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "3KAyv0olOgvVnhQlPf/SO1maLMV8oCNsBvSaHr7vOmVrin0E7uhEO/uvZrKVT6zcBapN6VkS+APMM6pAJ1WJQA==",
+  "dgSpecHash": "5H2UltSzv0kgO2KS5WwZdz6Y/eq0wszRLa9plS+8A+XMOS6ZVj5XuOzS90CgzZ2T1jBuVzYBG3sw0uTsmom7ew==",
   "success": true,
   "projectFilePath": "/Users/colburnsanders/Dev/SocialBackend/Social.Infrastructure/Social.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -17,7 +17,7 @@
     "/Users/colburnsanders/.nuget/packages/microsoft.extensions.dependencyinjection/6.0.1/microsoft.extensions.dependencyinjection.6.0.1.nupkg.sha512",
     "/Users/colburnsanders/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/6.0.0/microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
     "/Users/colburnsanders/.nuget/packages/microsoft.extensions.logging/6.0.0/microsoft.extensions.logging.6.0.0.nupkg.sha512",
-    "/Users/colburnsanders/.nuget/packages/microsoft.extensions.logging.abstractions/6.0.0/microsoft.extensions.logging.abstractions.6.0.0.nupkg.sha512",
+    "/Users/colburnsanders/.nuget/packages/microsoft.extensions.logging.abstractions/6.0.4/microsoft.extensions.logging.abstractions.6.0.4.nupkg.sha512",
     "/Users/colburnsanders/.nuget/packages/microsoft.extensions.options/6.0.0/microsoft.extensions.options.6.0.0.nupkg.sha512",
     "/Users/colburnsanders/.nuget/packages/microsoft.extensions.primitives/6.0.0/microsoft.extensions.primitives.6.0.0.nupkg.sha512",
     "/Users/colburnsanders/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",

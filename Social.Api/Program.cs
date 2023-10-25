@@ -1,11 +1,27 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
+using Social.Infrastructure.Interfaces;
+using Social.Infrastructure.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddScoped<IAccountRespository, AccountRepository>();
 
 builder.Services.AddControllers();
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        var errors = new SerializableError(context.ModelState);
+        var result = new UnprocessableEntityObjectResult(new { errors });
+        return result;
+    };
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Social.Api", Version = "v1" });
+});
 
 var app = builder.Build();
 
@@ -13,7 +29,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Social.Api v1"));
 }
 
 app.UseHttpsRedirection();
