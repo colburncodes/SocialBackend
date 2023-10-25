@@ -1,10 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Social.Infrastructure.Data;
 using Social.Infrastructure.Interfaces;
 using Social.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDbContext<SocialContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 // Add services to the container.
 builder.Services.AddScoped<IAccountRespository, AccountRepository>();
 
