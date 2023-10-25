@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Social.Core.Requests;
-using Social.Core.Responses;
 using Social.Infrastructure.Interfaces;
 
 namespace Social.Api.Controllers
@@ -19,10 +18,9 @@ namespace Social.Api.Controllers
         }
         
         [HttpPost]
-        public IActionResult RegisterUser([FromBody] UserRequest<Register> req)
+        public async Task<IActionResult> RegisterUser([FromBody] UserRequest<Register> req)
         {
-            var user = _accountRespository.RegisterUser(req.User);
-            
+            var user = await _accountRespository.RegisterUserAsync(req.User);
             return Ok(new {user});
         }
     }

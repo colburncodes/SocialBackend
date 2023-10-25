@@ -5,5 +5,5 @@ namespace Social.Infrastructure.Interfaces;
 
 public interface IAccountRespository
 {
-    User RegisterUser(Register register);
+    Task<User> RegisterUserAsync(Register register);
 }
