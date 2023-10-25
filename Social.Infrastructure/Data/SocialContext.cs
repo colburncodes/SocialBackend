@@ -5,7 +5,7 @@ namespace Social.Infrastructure.Data;
 public class SocialContext : DbContext
 {
     public DbSet<Account> Accounts { get; set; }
-    public DbSet<User> Users { get; set; }
+    public DbSet<Person> People { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
@@ -15,7 +15,7 @@ public class SocialContext : DbContext
                 .IsUnique();
         });
 
-        modelBuilder.Entity<User>(entity =>
+        modelBuilder.Entity<Person>(entity =>
         {
             entity
                 .Property(e => e.Id)
@@ -23,8 +23,8 @@ public class SocialContext : DbContext
 
             entity
                 .HasOne(d => d.Account)
-                .WithOne(p => p.User)
-                .HasForeignKey<User>(d => d.Id)
+                .WithOne(p => p.Person)
+                .HasForeignKey<Person>(d => d.Id)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
             entity
