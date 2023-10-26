@@ -33,6 +33,7 @@ public class AccountRepository : IAccountRespository
     public async Task<User> RegisterUserAsync(Register register)
     {
         var userExists = await UserExistAsync(register);
+        
         if (userExists)
         {
             throw new UserExistException("User already exists!");
@@ -41,10 +42,33 @@ public class AccountRepository : IAccountRespository
         var account = await CreateAccountAsync(register);
         var user = CreateUser(account);
         user.Token = CreateToken(user);
-        // TODO: HANDLE DB CONTEXT
-        // await _dbContext.Accounts.AddAsync(user);
-        // await _dbContext.SaveChangesAsync();
-
+        
+        return user;
+    }
+    
+    private async Task<Account> CreateAccountAsync(Register register)
+    {
+        byte[] passwordHash, passwordSalt;
+        CreatePasswordHash(register.Password, out passwordHash, out passwordSalt);
+        var result = await _dbContext.Accounts.AddAsync(new Account()
+        {
+            Email = register.Email,
+            PasswordHash = passwordHash,
+            PasswordSalt = passwordSalt,
+            Person = new Data.Person()
+            {
+                UserName = register.UserName,
+            }
+        });
+        await _dbContext.SaveChangesAsync();
+        return result.Entity;
+    }
+    
+    private User CreateUser(Account account)
+    {
+        var user = new User();
+        _mapper.Map(account, user);
+        _mapper.Map(account.Person, user);
         return user;
     }
 
@@ -69,33 +93,7 @@ public class AccountRepository : IAccountRespository
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
     }
-
-    private User CreateUser(Account account)
-    {
-        var user = new User();
-        _mapper.Map(account, user);
-        _mapper.Map(account.Person, user);
-        return user;
-    }
-
-    private async Task<Account> CreateAccountAsync(Register register)
-    {
-        byte[] passwordHash, passwordSalt;
-        CreatePasswordHash(register.Password, out passwordHash, out passwordSalt);
-        var result = await _dbContext.Accounts.AddAsync(new Account()
-        {
-            Email = register.Email,
-            PasswordHash = passwordHash,
-            PasswordSalt = passwordSalt,
-            Person = new Data.Person()
-            {
-                UserName = register.UserName,
-            }
-        });
-        await _dbContext.SaveChangesAsync();
-        return result.Entity;
-    }
-
+    
     private void CreatePasswordHash(string registerPassword, out byte[] passwordHash, out byte[] passwordSalt)
     {
         using (var hmac = new HMACSHA512())
