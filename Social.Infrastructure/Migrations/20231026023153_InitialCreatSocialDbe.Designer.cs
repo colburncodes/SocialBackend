@@ -12,7 +12,7 @@ using Social.Infrastructure.Data;
 namespace Social.Infrastructure.Migrations
 {
     [DbContext(typeof(SocialContext))]
-    [Migration("20231025222611_InitialCreatSocialDbe")]
+    [Migration("20231026023153_InitialCreatSocialDbe")]
     partial class InitialCreatSocialDbe
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,7 +78,7 @@ namespace Social.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Social.Infrastructure.Data.Person", b =>

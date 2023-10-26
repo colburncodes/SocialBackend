@@ -89,7 +89,7 @@ public class AccountRepository : IAccountRespository
             PasswordSalt = passwordSalt,
             Person = new Data.Person()
             {
-                UserName = register.UserName
+                UserName = register.UserName,
             }
         });
         await _dbContext.SaveChangesAsync();
