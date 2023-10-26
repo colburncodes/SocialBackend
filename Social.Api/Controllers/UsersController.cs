@@ -17,7 +17,7 @@ namespace Social.Api.Controllers
             _accountRespository = accountRespository;
         }
         
-        [HttpPost]
+        [HttpPost("register-user")]
         public async Task<IActionResult> RegisterUser([FromBody] UserRequest<Register> req)
         {
             var user = await _accountRespository.RegisterUserAsync(req.User);

@@ -76,7 +76,7 @@ namespace Social.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Social.Infrastructure.Data.Person", b =>
