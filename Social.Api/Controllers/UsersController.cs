@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Social.Core.Requests;
+using Social.Infrastructure.Exceptions;
 using Social.Infrastructure.Interfaces;
 
 namespace Social.Api.Controllers
@@ -20,8 +21,41 @@ namespace Social.Api.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUser([FromBody] UserRequest<Register> req)
         {
-            var user = await _accountRespository.RegisterUserAsync(req.User);
-            return Ok(new {user});
+            try
+            {
+                var user = await _accountRespository.RegisterUserAsync(req.User);
+                return Ok(new { user });
+            }
+            catch (UserExistException ex)
+            {
+                _logger.LogWarning(ex.Message, ex);
+                return BadRequest(ex);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+                return StatusCode(422);
+            }
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginAsync([FromBody] UserRequest<Login> req)
+        {
+            try
+            {
+                var user = await _accountRespository.LoginUserAsync(req.User);
+                return Ok(new { user });
+            }
+            catch (LoginFailedException ex)
+            {
+                _logger.LogWarning(ex.Message, ex);
+                return BadRequest(ex);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+                return StatusCode(500);
+            }
         }
     }
 }

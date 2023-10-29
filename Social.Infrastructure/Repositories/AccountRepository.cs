@@ -45,7 +45,47 @@ public class AccountRepository : IAccountRespository
         
         return user;
     }
-    
+
+    public async Task<User> LoginUserAsync(Login login)
+    {
+        var account = await _dbContext.Accounts
+            .Include(p => p.Person).
+            FirstOrDefaultAsync(f => f.Email == login.Email);
+        
+        if (account == null)
+        {
+            throw new LoginFailedException("Login Failed = email not found.");
+        }
+
+        if (!VerifyPassword(login.Password, account.PasswordHash, account.PasswordSalt))
+        {
+            throw new LoginFailedException("Login failed - password is incorrect");
+        }
+
+        var user = CreateUser(account);
+        user.Token = CreateToken(user);
+        return user;
+    }
+
+    private bool VerifyPassword(string loginPassword, byte[] accountPasswordHash, byte[] accountPasswordSalt)
+    {
+        using (var hmac = new HMACSHA512(accountPasswordSalt))
+        {
+            var computeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginPassword));
+            {
+                for (int i = 0; i < computeHash.Length; i++)
+                {
+                    if (computeHash[i] != accountPasswordHash[i])
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+    }
+
     private async Task<Account> CreateAccountAsync(Register register)
     {
         byte[] passwordHash, passwordSalt;
