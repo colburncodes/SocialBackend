@@ -26,19 +26,19 @@ namespace Social.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false),
                     UserName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Bio = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    Bio = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     Image = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false, defaultValue: "'https://static.productionready.io/images/smiley-cyrus.jpg'")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_User_Accounts_Id",
+                        name: "FK_Users_Accounts_Id",
                         column: x => x.Id,
                         principalTable: "Accounts",
                         principalColumn: "Id");
@@ -54,7 +54,7 @@ namespace Social.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Accounts");

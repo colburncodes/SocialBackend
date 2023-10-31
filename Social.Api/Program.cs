@@ -1,12 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Social.Core.Query;
 using Social.Core.Responses;
 using Social.Infrastructure.Data;
 using Social.Infrastructure.Interfaces;
 using Social.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHttpClient("rest", c => c.BaseAddress = new Uri("http://localhost:5227"));
+builder.Services
+    .AddGraphQLServer()
+    .AddQueryType<Query>()
+    .AddProjections()
+    .AddFiltering()
+    .AddSorting()
+    .InitializeOnStartup();
 
 builder.Services.AddDbContext<SocialContext>(options =>
 {
@@ -49,5 +59,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGraphQL("/graphql");
 
 app.Run();
