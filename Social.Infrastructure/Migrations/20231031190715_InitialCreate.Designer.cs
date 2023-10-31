@@ -12,8 +12,8 @@ using Social.Infrastructure.Data;
 namespace Social.Infrastructure.Migrations
 {
     [DbContext(typeof(SocialContext))]
-    [Migration("20231026023153_InitialCreatSocialDbe")]
-    partial class InitialCreatSocialDbe
+    [Migration("20231031190715_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
