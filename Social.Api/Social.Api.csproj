@@ -24,7 +24,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Social.Core\Social.Core.csproj" />
       <ProjectReference Include="..\Social.Infrastructure\Social.Infrastructure.csproj" />
     </ItemGroup>
 
