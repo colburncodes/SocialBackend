@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Authentication;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -52,7 +53,7 @@ public class AccountRepository : IAccountRespository
             .Include(p => p.Person).
             FirstOrDefaultAsync(f => f.Email == login.Email);
         
-        if (account == null)
+        if (account is null)
         {
             throw new LoginFailedException("Login Failed = email not found.");
         }
@@ -65,6 +66,22 @@ public class AccountRepository : IAccountRespository
         var user = CreateUser(account);
         user.Token = CreateToken(user);
         return user;
+    }
+
+    public async Task<User> GetCurrentUserAsync()
+    {
+        var account = await GetLoggedInUserAsync();
+        if (account is null)
+        {
+            throw new InvalidCredentialException("Invalid user - Please login using a valid email & password.");
+        }
+
+        return CreateUser(account);
+    }
+
+    public Task<Account> GetLoggedInUserAsync()
+    {
+        throw new NotImplementedException();
     }
 
     private bool VerifyPassword(string loginPassword, byte[] accountPasswordHash, byte[] accountPasswordSalt)
